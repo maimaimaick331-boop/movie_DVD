@@ -1,63 +1,85 @@
 {
-  "lastUpdate": "2/13/2026, 10:36:14 PM",
+  "lastUpdate": "2026/2/14 01:47:02",
+  "lang": {
+    "title": {
+      "zh": "全球大宗商品实时情报",
+      "en": "Global Commodity Intelligence"
+    },
+    "update": {
+      "zh": "最后更新",
+      "en": "LAST UPDATE"
+    },
+    "spot": {
+      "zh": "现货价格",
+      "en": "SPOT PRICE"
+    },
+    "inventory": {
+      "zh": "实物可交割库存",
+      "en": "REGISTERED INVENTORY"
+    },
+    "exchange": {
+      "zh": "交易所",
+      "en": "EXCHANGE"
+    }
+  },
   "prices": {
     "gold": {
-      "spot": 2650.45,
-      "change": "+1.2%"
+      "spot": 2650.15,
+      "change": "+0.45%",
+      "trend": "up"
     },
     "silver": {
-      "spot": 31.12,
-      "change": "-0.5%"
+      "spot": 31.25,
+      "change": "-0.12%",
+      "trend": "down"
     },
     "copper": {
-      "spot": 9150,
-      "change": "+0.8%"
+      "spot": 9145.5,
+      "change": "+1.10%",
+      "trend": "up"
     }
   },
   "inventory": {
-    "gold": {
-      "comex": {
-        "registered": 7452100,
-        "eligible": 12000000,
+    "gold": [
+      {
+        "exchange": "COMEX",
+        "amount": "7,452,100",
         "unit": "oz"
       },
-      "shfe": {
-        "warrants": 3120,
+      {
+        "exchange": "SHFE",
+        "amount": "3,120",
         "unit": "kg"
       },
-      "lme": {
-        "stocks": 12.5,
+      {
+        "exchange": "LME",
+        "amount": "12.5",
         "unit": "ton"
       }
-    },
-    "silver": {
-      "comex": {
-        "registered": 68450000,
-        "eligible": 250000000,
+    ],
+    "silver": [
+      {
+        "exchange": "COMEX",
+        "amount": "68,450,000",
         "unit": "oz"
       },
-      "shfe": {
-        "warrants": 985400,
+      {
+        "exchange": "SHFE",
+        "amount": "985,400",
         "unit": "kg"
+      }
+    ],
+    "copper": [
+      {
+        "exchange": "LME",
+        "amount": "125,425",
+        "unit": "ton"
       },
-      "lme": {
-        "stocks": 0,
+      {
+        "exchange": "SHFE",
+        "amount": "125,400",
         "unit": "ton"
       }
-    },
-    "copper": {
-      "comex": {
-        "registered": 45200,
-        "unit": "short tons"
-      },
-      "shfe": {
-        "warrants": 125400,
-        "unit": "ton"
-      },
-      "lme": {
-        "stocks": 125425,
-        "unit": "ton"
-      }
-    }
+    ]
   }
 }

@@ -3,98 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jarvis Intelligence | Commodity Dashboard</title>
+    <title>Jarvis Intelligence | Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-        body { background-color: #030303; color: #e0e0e0; font-family: 'JetBrains+Mono', monospace; }
-        .glass { background: rgba(15, 15, 15, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .neon-gold { border-left: 4px solid #ffcc00; box-shadow: -5px 0 15px rgba(255, 204, 0, 0.1); }
-        .neon-silver { border-left: 4px solid #b0b0b0; box-shadow: -5px 0 15px rgba(176, 176, 176, 0.1); }
-        .neon-copper { border-left: 4px solid #ff7f50; box-shadow: -5px 0 15px rgba(255, 127, 80, 0.1); }
-        .tab-active { color: #3b82f6; border-bottom: 2px solid #3b82f6; }
+        body { background-color: #030303; color: #e0e0e0; font-family: sans-serif; }
+        .glass { background: rgba(20, 20, 20, 0.9); border: 1px solid rgba(255, 255, 255, 0.05); }
     </style>
 </head>
-<body class="p-4 md:p-10">
-    <!-- UI HEADER -->
-    <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-        <div>
-            <h1 id="ui-title" class="text-2xl md:text-4xl font-extrabold tracking-tighter text-white uppercase italic">
-                JARVIS <span class="text-blue-500">INTEL</span>
-            </h1>
-            <div class="flex items-center gap-4 mt-2">
-                <span class="flex items-center text-[10px] text-green-500 font-bold uppercase tracking-widest">
-                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2 shadow-[0_0_8px_#22c55e]"></span>
-                    Global Core Active
-                </span>
-                <div class="flex gap-2 text-[10px] items-center">
-                    <button id="lang-zh" onclick="setLang('zh')" class="hover:text-blue-400">中文</button>
-                    <span class="text-gray-700">|</span>
-                    <button id="lang-en" onclick="setLang('en')" class="hover:text-blue-400">EN</button>
-                </div>
-            </div>
-        </div>
-        <div class="text-left md:text-right border-l md:border-l-0 md:border-r border-gray-800 pl-4 md:pr-4">
-            <p id="ui-last-update-label" class="text-[10px] text-gray-500 font-bold uppercase">Last Update</p>
-            <p id="update-time" class="text-blue-400 text-sm font-bold tracking-widest">---</p>
-        </div>
-    </header>
-
-    <!-- REAL-TIME SPOTS -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <div class="glass p-6 neon-gold">
-            <p id="ui-spot-gold" class="text-[11px] text-yellow-500 font-black mb-1">GOLD (USD/OZ)</p>
-            <div class="flex justify-between items-center">
-                <span id="price-gold" class="text-3xl font-bold text-white">---</span>
-                <span id="change-gold" class="text-xs bg-green-900/30 text-green-400 px-2 py-1 rounded">+0.0%</span>
-            </div>
-        </div>
-        <div class="glass p-6 neon-silver">
-            <p id="ui-spot-silver" class="text-[11px] text-gray-400 font-black mb-1">SILVER (USD/OZ)</p>
-            <div class="flex justify-between items-center">
-                <span id="price-silver" class="text-3xl font-bold text-white">---</span>
-                <span id="change-silver" class="text-xs bg-red-900/30 text-red-400 px-2 py-1 rounded">-0.0%</span>
-            </div>
-        </div>
-        <div class="glass p-6 neon-copper">
-            <p id="ui-spot-copper" class="text-[11px] text-orange-400 font-black mb-1">COPPER (USD/TON)</p>
-            <div class="flex justify-between items-center">
-                <span id="price-copper" class="text-3xl font-bold text-white">---</span>
-                <span id="change-copper" class="text-xs bg-green-900/30 text-green-400 px-2 py-1 rounded">+0.0%</span>
+<body class="p-6">
+    <div class="flex justify-between items-center mb-10">
+        <h1 id="ui-title" class="text-2xl font-bold text-blue-500">JARVIS INTEL</h1>
+        <div class="flex gap-4 items-center">
+            <button onclick="setLang('zh')" class="text-xs border border-gray-700 px-2 py-1 rounded">中文</button>
+            <button onclick="setLang('en')" class="text-xs border border-gray-700 px-2 py-1 rounded">EN</button>
+            <div class="text-right ml-4">
+                <p class="text-[10px] text-gray-500">UPDATE</p>
+                <p id="update-time" class="text-xs text-blue-400">---</p>
             </div>
         </div>
     </div>
 
-    <!-- INVENTORY SECTION -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- GOLD -->
-        <div class="glass overflow-hidden rounded-lg">
-            <div id="ui-inv-gold-label" class="bg-yellow-500/10 p-3 text-[12px] font-bold text-yellow-500 border-b border-yellow-500/20 uppercase tracking-widest">
-                Gold Inventory Warrants
-            </div>
-            <div id="inv-gold-container" class="p-2"></div>
+    <!-- PRICES -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div class="glass p-4 rounded-lg border-l-4 border-yellow-500">
+            <p class="text-[10px] text-yellow-500 font-bold">GOLD (USD/OZ)</p>
+            <p id="price-gold" class="text-2xl font-bold">---</p>
         </div>
-        <!-- SILVER -->
-        <div class="glass overflow-hidden rounded-lg">
-            <div id="ui-inv-silver-label" class="bg-gray-500/10 p-3 text-[12px] font-bold text-gray-300 border-b border-gray-500/20 uppercase tracking-widest">
-                Silver Inventory Warrants
-            </div>
-            <div id="inv-silver-container" class="p-2"></div>
+        <div class="glass p-4 rounded-lg border-l-4 border-gray-400">
+            <p class="text-[10px] text-gray-400 font-bold">SILVER (USD/OZ)</p>
+            <p id="price-silver" class="text-2xl font-bold">---</p>
         </div>
-        <!-- COPPER -->
-        <div class="glass overflow-hidden rounded-lg">
-            <div id="ui-inv-copper-label" class="bg-orange-500/10 p-3 text-[12px] font-bold text-orange-400 border-b border-orange-500/20 uppercase tracking-widest">
-                Copper Inventory Warrants
-            </div>
-            <div id="inv-copper-container" class="p-2"></div>
+        <div class="glass p-4 rounded-lg border-l-4 border-orange-500">
+            <p class="text-[10px] text-orange-500 font-bold">COPPER (USD/TON)</p>
+            <p id="price-copper" class="text-2xl font-bold">---</p>
         </div>
     </div>
 
-    <footer class="mt-16 pt-6 border-t border-gray-900 flex justify-between items-center text-[9px] text-gray-600 font-bold uppercase tracking-[0.2em]">
-        <p>Jarvis Intelligence System | Encrypted Data Feed</p>
-        <p>© 2026 MAICK CHEN ASSETS</p>
-    </footer>
+    <!-- INVENTORY TABLE -->
+    <div id="table-container" class="grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
 
     <script>
         let currentLang = 'zh';
@@ -107,49 +53,47 @@
 
         async function updateData() {
             try {
+                // 使用绝对 URL 避开路径问题，或者确保相对路径正确
                 const response = await fetch('commodity_data.json');
                 fullData = await response.json();
                 render();
-            } catch (e) { console.log('Data loading...'); }
+            } catch (e) { 
+                console.error('Fetch error:', e);
+                // 容错处理：如果 fetch 失败，显示提示
+                document.body.innerHTML += '<p style="color:red">Data Load Error</p>';
+            }
         }
 
         function render() {
             if(!fullData) return;
             const l = currentLang;
-            
-            // Labels
-            document.getElementById('ui-title').innerHTML = `JARVIS <span class="text-blue-500">${fullData.lang.title[l]}</span>`;
-            document.getElementById('ui-last-update-label').innerText = fullData.lang.update[l];
             document.getElementById('update-time').innerText = fullData.lastUpdate;
-            
-            document.getElementById('ui-spot-gold').innerText = `GOLD 金 (${l === 'zh' ? '美元/盎司' : 'USD/OZ'})`;
-            document.getElementById('ui-spot-silver').innerText = `SILVER 银 (${l === 'zh' ? '美元/盎司' : 'USD/OZ'})`;
-            document.getElementById('ui-spot-copper').innerText = `COPPER 铜 (${l === 'zh' ? '美元/吨' : 'USD/TON'})`;
+            document.getElementById('price-gold').innerText = "$" + fullData.prices.gold.spot;
+            document.getElementById('price-silver').innerText = "$" + fullData.prices.silver.spot;
+            document.getElementById('price-copper').innerText = "$" + fullData.prices.copper.spot;
 
-            // Prices
-            document.getElementById('price-gold').innerText = "$" + fullData.prices.gold.spot.toLocaleString();
-            document.getElementById('price-silver').innerText = "$" + fullData.prices.silver.spot.toLocaleString();
-            document.getElementById('price-copper').innerText = "$" + fullData.prices.copper.spot.toLocaleString();
+            const container = document.getElementById('table-container');
+            container.innerHTML = '';
 
-            // Tables
             ['gold', 'silver', 'copper'].forEach(metal => {
-                const container = document.getElementById(`inv-\${metal}-container`);
-                let html = \`<table class="w-full text-left text-xs uppercase tracking-tighter">
-                    <tr class="text-gray-600 border-b border-gray-900"><th class="p-3">\${l === 'zh' ? '交易所' : 'EXCHANGE'}</th><th class="p-3 text-right">\${l === 'zh' ? '仓单/注册库存' : 'REGISTERED'}</th></tr>\`;
+                let html = `<div class="glass p-4 rounded-lg">
+                    <h3 class="text-xs font-bold uppercase mb-4 text-gray-500">${metal} ${l==='zh'?'库存':'Inventory'}</h3>
+                    <table class="w-full text-xs text-left">
+                        <tr class="text-gray-600 border-b border-gray-800"><th class="pb-2">EX</th><th class="pb-2 text-right">AMOUNT</th></tr>`;
                 
                 fullData.inventory[metal].forEach(row => {
-                    html += \`<tr class="border-b border-gray-900/50 hover:bg-white/5 transition-colors">
-                        <td class="p-3 font-bold text-blue-400">\${row.exchange}</td>
-                        <td class="p-3 text-right text-white font-black">\${row.amount} <span class="text-[9px] text-gray-500">\${row.unit}</span></td>
-                    </tr>\`;
+                    html += `<tr class="border-b border-gray-800/50">
+                        <td class="py-2 text-blue-400 font-bold">${row.exchange}</td>
+                        <td class="py-2 text-right">${row.amount} <span class="text-[9px] text-gray-600">${row.unit}</span></td>
+                    </tr>`;
                 });
-                html += '</table>';
-                container.innerHTML = html;
+                html += `</table></div>`;
+                container.innerHTML += html;
             });
         }
 
-        setInterval(updateData, 5000);
         updateData();
+        setInterval(updateData, 10000);
     </script>
 </body>
 </html>
