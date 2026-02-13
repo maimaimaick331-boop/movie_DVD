@@ -21,37 +21,32 @@
         <header class="flex justify-between items-center mb-6 pt-2">
             <div class="flex items-center gap-3">
                 <div class="bg-blue-600 text-black px-2 py-0.5 text-[10px] font-black italic">JARVIS PRO</div>
-                <h1 class="text-xs font-black tracking-[0.3em] uppercase opacity-80 italic">Global Intelligence <span class="text-blue-500">v4.0</span></h1>
+                <h1 class="text-xs font-black tracking-[0.3em] uppercase opacity-80 italic">Global Intelligence <span class="text-blue-500">v4.1</span></h1>
             </div>
             <div class="flex items-center gap-4 text-[10px] font-bold text-gray-600">
-                <div class="flex items-center gap-2"><div class="live-pulse"></div> REAL-TIME FEED</div>
+                <div class="flex items-center gap-2"><div class="live-pulse"></div> FEED: CONNECTED</div>
                 <div id="clock">--:--:--</div>
             </div>
         </header>
 
         <!-- REAL-TIME PRICE BAR -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6" id="price-bar">
-            <!-- Rendered by JS -->
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6" id="price-bar"></div>
 
         <!-- PHYSICAL INVENTORY -->
         <div class="cell p-4 rounded-sm mb-6">
             <div class="flex justify-between items-end mb-6 border-b border-gray-800 pb-4">
                 <div>
                     <h2 class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Registered Inventory Matrix</h2>
-                    <h2 class="text-xl font-black">交易所实物可交割库存 / 仓单</h2>
+                    <h2 class="text-xl font-black italic">交易所实物可交割库存 / 仓单</h2>
                 </div>
-                <div class="text-[9px] text-gray-500 italic">Source: Inter-Exchange Official Audit</div>
+                <div class="text-[9px] text-gray-500 italic">Official Multi-Exchange Data Audit</div>
             </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10" id="inventory-grid">
-                <!-- Data Columns -->
-            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10" id="inventory-grid"></div>
         </div>
 
         <footer class="flex justify-between text-[8px] text-gray-700 font-bold uppercase tracking-widest mt-10">
-            <p>Proprietary Feed for MAICK CHEN | Distributed via OpenClaw</p>
-            <p>ID: ALPHA-9-SECURE</p>
+            <p>Proprietary Feed for MAICK CHEN | High Dynamic Range Engine</p>
+            <p>STABLE SOURCE ACCESS v4.1</p>
         </footer>
     </div>
 
@@ -60,29 +55,34 @@
             try {
                 const r = await fetch('commodity_data.json');
                 const d = await r.json();
-                document.getElementById('clock').innerText = d.lastUpdate;
+                document.getElementById('clock').innerText = d.lastUpdate || '--:--:--';
 
                 // Prices
                 const pBar = document.getElementById('price-bar');
-                pBar.innerHTML = '';
+                let priceHtml = '';
+                const labels = { gold: 'GC (GOLD)', silver: 'SI (SILVER)', copper: 'HG (COPPER)' };
+                const venues = { gold: 'COMEX', silver: 'COMEX', copper: 'LME' };
+                
                 ['gold', 'silver', 'copper'].forEach(m => {
-                    const data = d.prices[m];
-                    const isUp = !data.change.includes('-');
-                    pBar.innerHTML += `
+                    const item = d.prices[m];
+                    const isUp = !item.change.includes('-');
+                    const priceVal = item.price || "--";
+                    priceHtml += `
                         <div class="cell p-4 flex justify-between items-center rounded-sm">
                             <div>
                                 <div class="flex items-center gap-2 mb-1">
-                                    <span class="text-[10px] font-black text-gray-500 uppercase">${m === 'gold'?'GC (GOLD)': m === 'silver'?'SI (SILVER)':'HG (COPPER)'}</span>
-                                    <span class="text-[8px] opacity-30 italic">${m === 'copper'?'LME':'COMEX'}</span>
+                                    <span class="text-[10px] font-black text-gray-500 uppercase">${labels[m]}</span>
+                                    <span class="text-[8px] opacity-30 italic">${venues[m]}</span>
                                 </div>
-                                <div class="text-2xl font-black italic mono tracking-tighter text-white">$${data.price}</div>
+                                <div class="text-2xl font-black italic mono tracking-tighter text-white">$${priceVal}</div>
                             </div>
                             <div class="${isUp?'up-bg':'down-bg'} px-3 py-1 text-xs font-black rounded-sm border">
-                                ${data.change}
+                                ${item.change}
                             </div>
                         </div>
                     `;
                 });
+                pBar.innerHTML = priceHtml;
 
                 // Inventory
                 let invHtml = '';
@@ -91,11 +91,11 @@
                         <div>
                             <div class="text-[10px] font-black uppercase text-gray-400 mb-4 tracking-widest flex justify-between">
                                 <span>${metal}</span>
-                                <span class="opacity-30">USD Indexed</span>
+                                <span class="opacity-30">Registered</span>
                             </div>
                             <div class="space-y-5">
                                 ${d.inventory[metal].map(it => `
-                                    <div class="group cursor-crosshair">
+                                    <div class="group">
                                         <div class="flex justify-between items-end text-[9px] font-black mb-1">
                                             <span class="text-blue-400 uppercase">${it.exchange}</span>
                                             <span class="text-gray-700 font-bold italic">${it.sync}</span>
@@ -113,7 +113,7 @@
                 });
                 document.getElementById('inventory-grid').innerHTML = invHtml;
 
-            } catch(e) { console.log('Terminal Booting...'); }
+            } catch(e) { console.error('Render Error:', e); }
         }
         setInterval(load, 5000); load();
     </script>

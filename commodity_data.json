@@ -1,42 +1,17 @@
 {
-  "lastUpdate": "2026/2/14 01:47:02",
-  "lang": {
-    "title": {
-      "zh": "全球大宗商品实时情报",
-      "en": "Global Commodity Intelligence"
-    },
-    "update": {
-      "zh": "最后更新",
-      "en": "LAST UPDATE"
-    },
-    "spot": {
-      "zh": "现货价格",
-      "en": "SPOT PRICE"
-    },
-    "inventory": {
-      "zh": "实物可交割库存",
-      "en": "REGISTERED INVENTORY"
-    },
-    "exchange": {
-      "zh": "交易所",
-      "en": "EXCHANGE"
-    }
-  },
+  "lastUpdate": "01:59:17",
   "prices": {
     "gold": {
-      "spot": 2650.15,
-      "change": "+0.45%",
-      "trend": "up"
+      "price": 5042.9,
+      "change": "1.91%"
     },
     "silver": {
-      "spot": 31.25,
-      "change": "-0.12%",
-      "trend": "down"
+      "price": 77.45,
+      "change": "2.34%"
     },
     "copper": {
-      "spot": 9145.5,
-      "change": "+1.10%",
-      "trend": "up"
+      "price": 5.8035,
+      "change": "0.31%"
     }
   },
   "inventory": {
@@ -44,41 +19,55 @@
       {
         "exchange": "COMEX",
         "amount": "7,452,100",
-        "unit": "oz"
+        "unit": "oz",
+        "sync": "Daily Official",
+        "category": "Registered 可交割"
       },
       {
         "exchange": "SHFE",
         "amount": "3,120",
-        "unit": "kg"
+        "unit": "kg",
+        "sync": "Feb 13 EOB",
+        "category": "Warrants 仓单"
       },
       {
         "exchange": "LME",
         "amount": "12.5",
-        "unit": "ton"
+        "unit": "ton",
+        "sync": "T-2 Confirmed",
+        "category": "Warehouse 现货"
       }
     ],
     "silver": [
       {
         "exchange": "COMEX",
         "amount": "68,450,000",
-        "unit": "oz"
+        "unit": "oz",
+        "sync": "Daily Official",
+        "category": "Registered 可交割"
       },
       {
         "exchange": "SHFE",
         "amount": "985,400",
-        "unit": "kg"
+        "unit": "kg",
+        "sync": "Feb 13 EOB",
+        "category": "Warrants 仓单"
       }
     ],
     "copper": [
       {
         "exchange": "LME",
         "amount": "125,425",
-        "unit": "ton"
+        "unit": "ton",
+        "sync": "Official Update",
+        "category": "Global Inventory"
       },
       {
         "exchange": "SHFE",
         "amount": "125,400",
-        "unit": "ton"
+        "unit": "ton",
+        "sync": "Feb 13 EOB",
+        "category": "Warrants 仓单"
       }
     ]
   }
