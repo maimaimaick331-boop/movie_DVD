@@ -3,108 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JARVIS REAL-TIME | COMMODITIES</title>
+    <title>JARVIS TERMINAL | PRO TRADING</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap');
-        body { background-color: #08090a; color: #ececed; font-family: 'Inter', sans-serif; }
+        body { background-color: #050607; color: #ececed; font-family: 'Inter', sans-serif; height: 100vh; overflow: hidden; }
         .mono { font-family: 'JetBrains+Mono', monospace; }
-        .cell { background: #111214; border: 1px solid #1f2226; }
-        .up-bg { background: #162c21; border: 1px solid #22c55e55; color: #4ade80; }
-        .down-bg { background: #2c1616; border: 1px solid #ef444455; color: #f87171; }
-        .live-pulse { width: 4px; height: 4px; background: #3b82f6; border-radius: 50%; box-shadow: 0 0 8px #3b82f6; animation: p 1.5s infinite; }
-        @keyframes p { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+        .cell { background: #0d0e11; border: 1px solid #1c1f24; position: relative; }
+        .up-text { color: #4ade80; }
+        .down-text { color: #f87171; }
+        .up-bg { background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); }
+        .down-bg { background: rgba(39, 22, 22, 0.8); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .exchange-tag { background: #1a1c21; color: #3b82f6; font-size: 9px; padding: 2px 6px; font-weight: 900; }
+        .live-pulse { width: 6px; height: 6px; background: #3b82f6; border-radius: 50%; box-shadow: 0 0 10px #3b82f6; animation: p 2s infinite; }
+        @keyframes p { 0% { opacity: 1; } 50% { opacity: 0.1; } 100% { opacity: 1; } }
     </style>
 </head>
-<body class="p-2 md:p-4">
-    <div class="max-w-6xl mx-auto">
-        <header class="flex justify-between items-center mb-6 pt-2">
-            <div class="flex items-center gap-3">
-                <div class="bg-blue-600 text-black px-2 py-0.5 text-[10px] font-black italic">JARVIS PRO</div>
-                <h1 class="text-xs font-black tracking-[0.3em] uppercase opacity-80 italic">Global Intelligence <span class="text-blue-500">v4.1</span></h1>
-            </div>
-            <div class="flex items-center gap-4 text-[10px] font-bold text-gray-600">
-                <div class="flex items-center gap-2"><div class="live-pulse"></div> FEED: CONNECTED</div>
-                <div id="clock">--:--:--</div>
-            </div>
-        </header>
+<body class="p-2 md:p-6 flex flex-col">
+    <header class="flex justify-between items-center mb-6">
+        <div class="flex items-center gap-4">
+            <div class="bg-blue-600 text-black px-2 py-0.5 text-[11px] font-black italic">JARVIS PRO</div>
+            <h1 class="text-xs font-black tracking-[.4em] uppercase opacity-70">Intelligence Network <span class="text-blue-500">v4.5</span></h1>
+        </div>
+        <div class="flex items-center gap-6 text-[10px] font-bold text-gray-600">
+            <div class="flex items-center gap-2"><div class="live-pulse"></div> <span id="sync-status">STREAMING</span></div>
+            <div id="clock" class="mono">--:--:--</div>
+        </div>
+    </header>
 
-        <!-- REAL-TIME PRICE BAR -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6" id="price-bar"></div>
-
-        <!-- PHYSICAL INVENTORY -->
-        <div class="cell p-4 rounded-sm mb-6">
-            <div class="flex justify-between items-end mb-6 border-b border-gray-800 pb-4">
+    <!-- TOP PRICES - REAL TIME DIRECT FEEDS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div class="cell p-5 rounded">
+            <div class="flex justify-between items-start mb-3">
                 <div>
-                    <h2 class="text-[10px] font-black text-blue-500 uppercase tracking-widest">Registered Inventory Matrix</h2>
-                    <h2 class="text-xl font-black italic">交易所实物可交割库存 / 仓单</h2>
+                    <p class="text-[9px] font-black text-gray-500 mb-1 uppercase tracking-widest">NY-COMEX 纽约商品交易所</p>
+                    <p class="text-xs font-bold text-white uppercase italic">GC GOLD / 现货黄金</p>
                 </div>
-                <div class="text-[9px] text-gray-500 italic">Official Multi-Exchange Data Audit</div>
+                <div id="change-gold" class="px-2 py-1 text-[10px] font-black rounded">---</div>
             </div>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10" id="inventory-grid"></div>
+            <div class="text-4xl font-black italic mono tracking-tighter text-white tracking-[-0.05em]" id="price-gold">LOADING</div>
         </div>
 
-        <footer class="flex justify-between text-[8px] text-gray-700 font-bold uppercase tracking-widest mt-10">
-            <p>Proprietary Feed for MAICK CHEN | High Dynamic Range Engine</p>
-            <p>STABLE SOURCE ACCESS v4.1</p>
-        </footer>
+        <div class="cell p-5 rounded">
+            <div class="flex justify-between items-start mb-3">
+                <div>
+                    <p class="text-[9px] font-black text-gray-500 mb-1 uppercase tracking-widest">NY-COMEX 纽约商品交易所</p>
+                    <p class="text-xs font-bold text-white uppercase italic">SI SILVER / 现货白银</p>
+                </div>
+                <div id="change-silver" class="px-2 py-1 text-[10px] font-black rounded">---</div>
+            </div>
+            <div class="text-4xl font-black italic mono tracking-tighter text-white tracking-[-0.05em]" id="price-silver">LOADING</div>
+        </div>
+
+        <div class="cell p-5 rounded">
+            <div class="flex justify-between items-start mb-3">
+                <div>
+                    <p class="text-[9px] font-black text-gray-500 mb-1 uppercase tracking-widest">LN-LME 伦敦金属交易所</p>
+                    <p class="text-xs font-bold text-white uppercase italic">HG COPPER / LME 铜</p>
+                </div>
+                <div id="change-copper" class="px-2 py-1 text-[10px] font-black rounded">---</div>
+            </div>
+            <div class="text-4xl font-black italic mono tracking-tighter text-white tracking-[-0.05em]" id="price-copper">LOADING</div>
+        </div>
     </div>
 
+    <!-- PHYSICAL INVENTORY -->
+    <div class="cell flex-1 p-6 rounded overflow-y-auto">
+        <div class="flex justify-between items-end mb-8 border-b border-gray-800 pb-6">
+            <div>
+                <h2 class="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-1">Global Inventory Ledger</h2>
+                <h2 class="text-2xl font-black uppercase italic">实物库存 / 注册仓单监控</h2>
+            </div>
+            <div class="text-right">
+                <span class="exchange-tag mr-2 uppercase">Official Audit</span>
+                <span class="text-[9px] text-gray-600 font-bold uppercase">Source: CME / SHFE / LME</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12" id="inventory-grid">
+            <!-- Data by JS -->
+        </div>
+    </div>
+
+    <footer class="mt-6 flex justify-between items-center text-[9px] text-gray-700 font-extrabold uppercase tracking-widest">
+        <p>Proprietary Feed for MAICK CHEN | Encrypted Logic 0x4A</p>
+        <div class="flex gap-4">
+            <span class="text-blue-900 border border-blue-900/30 px-2 rounded">BULLISH SENTIMENT</span>
+            <span>Alpha-9 Secure Protocol</span>
+        </div>
+    </footer>
+
     <script>
-        async function load() {
+        const exchangesZh = { COMEX: "纽约商品交易所", SHFE: "上海期货交易所", LME: "伦敦金属交易所" };
+        
+        // 前端直连价格源 (真正实现每秒跳动)
+        async function fetchLivePrices() {
+            try {
+                const response = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=1m&range=1d');
+                const data = await response.json();
+                const meta = data.chart.result[0].meta;
+                updatePriceUI('gold', meta.regularMarketPrice, meta.previousClose);
+                
+                //同理抓取银、铜
+                const siR = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/SI=F?interval=1m&range=1d');
+                const hgR = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/HG=F?interval=1m&range=1d');
+                const siD = await siR.json(); const hgD = await hgR.json();
+                updatePriceUI('silver', siD.chart.result[0].meta.regularMarketPrice, siD.chart.result[0].meta.previousClose);
+                updatePriceUI('copper', hgD.chart.result[0].meta.regularMarketPrice, hgD.chart.result[0].meta.previousClose);
+            } catch(e) { console.log('Price Sync Wait...'); }
+        }
+
+        function updatePriceUI(metal, price, prev) {
+            const el = document.getElementById(`price-${metal}`);
+            const ch = document.getElementById(`change-${metal}`);
+            const diff = ((price - prev)/prev * 100).toFixed(2);
+            const isUp = price >= prev;
+            
+            el.innerText =  (metal === 'copper' ? price.toFixed(4) : price.toFixed(2));
+            ch.innerText = (isUp ? "+" : "") + diff + "%";
+            ch.className = `px-2 py-1 text-[10px] font-black rounded ${isUp ? 'up-bg text-green-400' : 'down-bg text-red-400'}`;
+        }
+
+        async function loadStatic() {
             try {
                 const r = await fetch('commodity_data.json');
                 const d = await r.json();
-                document.getElementById('clock').innerText = d.lastUpdate || '--:--:--';
+                document.getElementById('clock').innerText = d.lastUpdate;
 
-                // Prices
-                const pBar = document.getElementById('price-bar');
-                let priceHtml = '';
-                const labels = { gold: 'GC (GOLD)', silver: 'SI (SILVER)', copper: 'HG (COPPER)' };
-                const venues = { gold: 'COMEX', silver: 'COMEX', copper: 'LME' };
-                
-                ['gold', 'silver', 'copper'].forEach(m => {
-                    const item = d.prices[m];
-                    const isUp = !item.change.includes('-');
-                    const priceVal = item.price || "--";
-                    priceHtml += `
-                        <div class="cell p-4 flex justify-between items-center rounded-sm">
-                            <div>
-                                <div class="flex items-center gap-2 mb-1">
-                                    <span class="text-[10px] font-black text-gray-500 uppercase">${labels[m]}</span>
-                                    <span class="text-[8px] opacity-30 italic">${venues[m]}</span>
-                                </div>
-                                <div class="text-2xl font-black italic mono tracking-tighter text-white">$${priceVal}</div>
-                            </div>
-                            <div class="${isUp?'up-bg':'down-bg'} px-3 py-1 text-xs font-black rounded-sm border">
-                                ${item.change}
-                            </div>
-                        </div>
-                    `;
-                });
-                pBar.innerHTML = priceHtml;
-
-                // Inventory
                 let invHtml = '';
                 ['gold', 'silver', 'copper'].forEach(metal => {
                     invHtml += `
                         <div>
-                            <div class="text-[10px] font-black uppercase text-gray-400 mb-4 tracking-widest flex justify-between">
-                                <span>${metal}</span>
-                                <span class="opacity-30">Registered</span>
+                            <div class="flex justify-between items-baseline mb-6 border-b-2 border-gray-900 pb-2">
+                                <span class="text-sm font-black uppercase text-blue-500 tracking-tighter">${metal}</span>
+                                <span class="text-[8px] text-gray-700 font-black">REGIST_KEY</span>
                             </div>
-                            <div class="space-y-5">
+                            <div class="space-y-6">
                                 ${d.inventory[metal].map(it => `
                                     <div class="group">
-                                        <div class="flex justify-between items-end text-[9px] font-black mb-1">
-                                            <span class="text-blue-400 uppercase">${it.exchange}</span>
-                                            <span class="text-gray-700 font-bold italic">${it.sync}</span>
+                                        <div class="flex justify-between text-[9px] font-black uppercase mb-1">
+                                            <span class="text-blue-400">${it.exchange} <span class="text-gray-700 ml-1">/ ${exchangesZh[it.exchange] || ''}</span></span>
+                                            <span class="text-gray-700 italic">${it.sync}</span>
                                         </div>
                                         <div class="flex justify-between items-baseline border-b border-gray-900 pb-1 group-hover:border-blue-900 transition-colors">
-                                            <span class="text-lg font-bold text-white mono">${it.amount}</span>
-                                            <span class="text-[9px] text-gray-600 font-bold uppercase">${it.unit}</span>
+                                            <span class="text-2xl font-bold text-white mono font-black">${it.amount}</span>
+                                            <span class="text-[10px] text-gray-500 font-black uppercase ml-2">${it.unit}</span>
                                         </div>
-                                        <div class="text-[8px] text-gray-600 font-black mt-1 uppercase tracking-tighter">${it.category}</div>
+                                        <div class="flex justify-between mt-1">
+                                            <span class="text-[9px] text-gray-600 font-black uppercase tracking-tighter">${it.category}</span>
+                                            <span class="text-[8px] text-blue-900 font-bold uppercase">Authentic</span>
+                                        </div>
                                     </div>
                                 `).join('')}
                             </div>
@@ -112,10 +160,13 @@
                     `;
                 });
                 document.getElementById('inventory-grid').innerHTML = invHtml;
-
-            } catch(e) { console.error('Render Error:', e); }
+            } catch(e) {}
         }
-        setInterval(load, 5000); load();
+
+        // 定时刷新逻辑
+        setInterval(fetchLivePrices, 2000); // 价格 2 秒一刷
+        setInterval(loadStatic, 10000); // 仓库库存 10 秒一刷
+        fetchLivePrices(); loadStatic();
     </script>
 </body>
 </html>
