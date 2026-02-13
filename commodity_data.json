@@ -1,0 +1,63 @@
+{
+  "lastUpdate": "2/13/2026, 10:36:14 PM",
+  "prices": {
+    "gold": {
+      "spot": 2650.45,
+      "change": "+1.2%"
+    },
+    "silver": {
+      "spot": 31.12,
+      "change": "-0.5%"
+    },
+    "copper": {
+      "spot": 9150,
+      "change": "+0.8%"
+    }
+  },
+  "inventory": {
+    "gold": {
+      "comex": {
+        "registered": 7452100,
+        "eligible": 12000000,
+        "unit": "oz"
+      },
+      "shfe": {
+        "warrants": 3120,
+        "unit": "kg"
+      },
+      "lme": {
+        "stocks": 12.5,
+        "unit": "ton"
+      }
+    },
+    "silver": {
+      "comex": {
+        "registered": 68450000,
+        "eligible": 250000000,
+        "unit": "oz"
+      },
+      "shfe": {
+        "warrants": 985400,
+        "unit": "kg"
+      },
+      "lme": {
+        "stocks": 0,
+        "unit": "ton"
+      }
+    },
+    "copper": {
+      "comex": {
+        "registered": 45200,
+        "unit": "short tons"
+      },
+      "shfe": {
+        "warrants": 125400,
+        "unit": "ton"
+      },
+      "lme": {
+        "stocks": 125425,
+        "unit": "ton"
+      }
+    }
+  }
+}
