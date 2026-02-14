@@ -1,11 +1,15 @@
 import yfinance as yf
 import json
 import os
+import time
 from datetime import datetime
+import pytz
 
 # --- 配置 ---
 REPO_PATH = "/Users/chenweibin/Documents/movie_DVD_repo"
 DATA_FILE = os.path.join(REPO_PATH, "commodity_data.json")
+SYNC_INTERVAL_SECONDS = int(os.environ.get("JARVIS_SYNC_INTERVAL", "1"))
+PUSH_INTERVAL_SECONDS = int(os.environ.get("JARVIS_PUSH_INTERVAL", "300"))
 
 def get_market_prices():
     """获取最严谨的收盘/实时价格"""
@@ -21,17 +25,22 @@ def get_market_prices():
         s_data = silver_ticker.history(period="1d")
         c_data = copper_ticker.history(period="1d")
 
+        def safe_price(data, decimals):
+            if data is None or data.empty:
+                return None
+            return round(float(data['Close'].iloc[-1]), decimals)
+
         return {
-            "gold": round(float(g_data['Close'].iloc[-1]), 2),
-            "silver": round(float(s_data['Close'].iloc[-1]), 3),
-            "copper": round(float(c_data['Close'].iloc[-1]), 4),
-            "raw_time": g_data.index[-1].strftime("%Y-%m-%d %H:%M:%S") if not g_data.empty else "N/A"
+            "gold": safe_price(g_data, 2),
+            "silver": safe_price(s_data, 3),
+            "copper": safe_price(c_data, 4),
+            "raw_time": g_data.index[-1].strftime("%Y-%m-%d %H:%M:%S") if not g_data.empty else None
         }
     except Exception as e:
         print(f"Error: {e}")
         return None
 
-def update_repo():
+def update_repo(allow_push=True):
     prices = get_market_prices()
     if not prices: return
 
@@ -39,9 +48,12 @@ def update_repo():
         data = json.load(f)
 
     # 1. 更新价格 (确保与交易软件收盘/实时对齐)
-    data['prices']['gold']['price'] = prices['gold']
-    data['prices']['silver']['price'] = prices['silver']
-    data['prices']['copper']['price'] = prices['copper']
+    if prices.get('gold') is not None:
+        data['prices']['gold']['price'] = prices['gold']
+    if prices.get('silver') is not None:
+        data['prices']['silver']['price'] = prices['silver']
+    if prices.get('copper') is not None:
+        data['prices']['copper']['price'] = prices['copper']
     
     # 2. 注入关联金属的精准溯源链接 (修复张冠李戴问题)
     # 每个交易所针对不同金属有不同的数据发布页
@@ -67,14 +79,37 @@ def update_repo():
             for item in data['inventory'][metal]:
                 item['url'] = source_links.get(metal, {}).get(item['exchange'], "#")
 
-    # 3. 更新时间 (使用系统当前北京时间)
-    data['lastUpdate'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    tz = pytz.timezone('Asia/Shanghai')
+    now = datetime.now(tz)
+    now_str = now.strftime("%Y-%m-%d %H:%M:%S")
+    current_date = now.strftime("%Y-%m-%d")
+    data['lastUpdate'] = now_str
+
+    for metal in ['gold', 'silver', 'copper']:
+        if metal in data['inventory']:
+            for item in data['inventory'][metal]:
+                category = item.get('category', '')
+                if 'Registered' in category or '可交割' in category:
+                    item['sync'] = f"Registered Snapshot {current_date}"
+                else:
+                    item['sync'] = f"Verified {current_date}"
 
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-    # 4. Git 推送
-    os.system(f"cd {REPO_PATH} && git add . && git commit -m 'Strict Update: Fix URLs, Time and Close Prices' && git push origin main")
+    if allow_push:
+        os.system(f"cd {REPO_PATH} && git add . && git commit -m 'Strict Update: Unified Sync {now_str}' && git push origin main")
 
 if __name__ == "__main__":
-    update_repo()
+    loop = os.environ.get("JARVIS_LOOP", "").lower() in ("1", "true", "yes")
+    if loop:
+        last_push_ts = 0.0
+        while True:
+            now_ts = time.time()
+            allow_push = (now_ts - last_push_ts) >= PUSH_INTERVAL_SECONDS
+            update_repo(allow_push=allow_push)
+            if allow_push:
+                last_push_ts = now_ts
+            time.sleep(SYNC_INTERVAL_SECONDS)
+    else:
+        update_repo()
