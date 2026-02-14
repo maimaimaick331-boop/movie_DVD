@@ -68,7 +68,9 @@
             "val": 7452100
           }
         ],
-        "interpretation": "可交割库存加速流出。纸金空头平仓压力传导至实物端，交割挤占风险上升。"
+        "interpretation": "可交割库存加速流出。纸金空头平仓压力传导至实物端，交割挤占风险上升。",
+        "registered_inventory": "N/A",
+        "paper_ratio": "0.3:1"
       }
     ],
     "silver": [
@@ -116,7 +118,9 @@
             "val": 68450000
           }
         ],
-        "interpretation": "Registered 库存已逼近历史临界点。空头力量在实物枯竭面前正在进行最后的负隅顽抗。"
+        "interpretation": "Registered 库存已逼近历史临界点。空头力量在实物枯竭面前正在进行最后的负隅顽抗。",
+        "registered_inventory": "115 million oz",
+        "paper_ratio": "6.5:1"
       }
     ],
     "copper": [
@@ -145,8 +149,8 @@
       }
     ]
   },
-  "ai_brief": "金价5063.8，周末休市。COMEX可交割库存加速流出，实物挤占风险上升。银价77.27，微跌。LBMA与COMEX库存均逼近临界，实物极度紧张。铜价5.788，库存累积，工业需求信号偏弱。整体看，贵金属实物支撑强劲，铜短期承压。",
-  "lastUpdate": "2026-02-14 17:14:36",
+  "ai_brief": "【核心空头预警】COMEX白银纸实比已达 6.5:1。3月预计交割需求 75 million oz，远超历史同期！上海(SHFE)库存已跌至 350 吨（降幅 88.3%）。目前处于实物极度匮乏期，任何突发需求都将触发'暴力拉升'。建议严密监控 COMEX 注册仓单变动。",
+  "lastUpdate": "2026-02-14 18:12:06",
   "ai_update_url": "http://localhost:9177/ai-update",
   "ai_meta": {
     "briefDate": "2026-02-14",
