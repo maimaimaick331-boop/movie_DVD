@@ -1,8 +1,20 @@
 {
   "prices": {
-    "gold": { "price": 5042.20, "change": "Close", "currency": "USD" },
-    "silver": { "price": 77.27, "change": "Close", "currency": "USD" },
-    "copper": { "price": 5.788, "change": "Close", "currency": "USD" }
+    "gold": {
+      "price": 5063.8,
+      "change": "Close",
+      "currency": "USD"
+    },
+    "silver": {
+      "price": 77.27,
+      "change": "Close",
+      "currency": "USD"
+    },
+    "copper": {
+      "price": 5.788,
+      "change": "Close",
+      "currency": "USD"
+    }
   },
   "inventory": {
     "gold": [
@@ -11,12 +23,21 @@
         "category": "London Vault Holdings",
         "amount": "9,158",
         "unit": "ton",
-        "sync": "End Jan 2026",
+        "sync": "End Jan 2026 (Final)",
         "url": "https://www.lbma.org.uk/prices-and-data/london-vault-data",
         "history": [
-          {"date": "2025-11", "val": 9020},
-          {"date": "2025-12", "val": 9110},
-          {"date": "2026-01", "val": 9158}
+          {
+            "date": "2025-11",
+            "val": 9020
+          },
+          {
+            "date": "2025-12",
+            "val": 9110
+          },
+          {
+            "date": "2026-01",
+            "val": 9158
+          }
         ],
         "interpretation": "库存温和回升。主权机构在5000金价附近的防御性增持迹象明显，实物底座稳固。"
       },
@@ -25,12 +46,21 @@
         "category": "Registered 可交割",
         "amount": "7,452,100",
         "unit": "oz",
-        "sync": "Daily Official",
+        "sync": "Updated 02-14",
         "url": "https://www.cmegroup.com/markets/metals/precious/gold.html",
         "history": [
-          {"date": "W1", "val": 7850000},
-          {"date": "W2", "val": 7620000},
-          {"date": "Today", "val": 7452100}
+          {
+            "date": "W1",
+            "val": 7850000
+          },
+          {
+            "date": "W2",
+            "val": 7620000
+          },
+          {
+            "date": "Today",
+            "val": 7452100
+          }
         ],
         "interpretation": "可交割库存加速流出。纸金空头平仓压力传导至实物端，交割挤占风险上升。"
       }
@@ -41,12 +71,21 @@
         "category": "London Vault Holdings",
         "amount": "27,729",
         "unit": "ton",
-        "sync": "End Jan 2026",
+        "sync": "End Jan 2026 (Final)",
         "url": "https://www.lbma.org.uk/prices-and-data/london-vault-data",
         "history": [
-          {"date": "2025-11", "val": 28100},
-          {"date": "2025-12", "val": 27950},
-          {"date": "2026-01", "val": 27729}
+          {
+            "date": "2025-11",
+            "val": 28100
+          },
+          {
+            "date": "2025-12",
+            "val": 27950
+          },
+          {
+            "date": "2026-01",
+            "val": 27729
+          }
         ],
         "interpretation": "库存连降三月。伦敦实物白银处于'极度紧平衡'状态，实物持有者拒绝在当前低估价抛售。"
       },
@@ -55,12 +94,21 @@
         "category": "Registered 可交割",
         "amount": "68,450,000",
         "unit": "oz",
-        "sync": "Daily Official",
+        "sync": "Updated 02-14",
         "url": "https://www.cmegroup.com/markets/metals/precious/silver.html",
         "history": [
-          {"date": "W1", "val": 72500000},
-          {"date": "W2", "val": 70100000},
-          {"date": "Today", "val": 68450000}
+          {
+            "date": "W1",
+            "val": 72500000
+          },
+          {
+            "date": "W2",
+            "val": 70100000
+          },
+          {
+            "date": "Today",
+            "val": 68450000
+          }
         ],
         "interpretation": "Registered 库存已逼近历史临界点。空头力量在实物枯竭面前正在进行最后的负隅顽抗。"
       }
@@ -74,14 +122,23 @@
         "sync": "Official Update",
         "url": "https://www.lme.com/en/Metals/Non-ferrous/LME-Copper#Stock+report",
         "history": [
-          {"date": "W1", "val": 118000},
-          {"date": "W2", "val": 122000},
-          {"date": "Today", "val": 125425}
+          {
+            "date": "W1",
+            "val": 118000
+          },
+          {
+            "date": "W2",
+            "val": 122000
+          },
+          {
+            "date": "Today",
+            "val": 125425
+          }
         ],
         "interpretation": "经济复苏信号弱于预期，库存小幅累积。工业金属逻辑暂被贵金属避险逻辑覆盖。"
       }
     ]
   },
   "ai_brief": "【宋鸿兵逻辑校准】当前COMEX金价站稳5000。核心突破点：COMEX白银'Registered'库存加速流向临界阈值。当前呈现典型的'纸面压制、实物逃离'格局。建议关注3月5日LBMA全量金库披露，防范空头突发性踩踏。",
-  "lastUpdate": "2026-02-14 12:05:00"
+  "lastUpdate": "2026-02-14 12:03:03"
 }
