@@ -116,24 +116,44 @@
             return Number.isNaN(parsed.getTime()) ? null : parsed;
         }
 
-        function setSyncStatus(lastUpdateMs) {
-            const el = document.getElementById('sync-status');
-            if (!el) return;
+        let lastStaticUpdateText = null;
+
+        function getSyncLevel(lastUpdateMs) {
             if (!lastUpdateMs) {
-                el.innerText = "NO DATA";
-                el.className = "text-[10px] font-bold text-gray-600";
-                return;
+                return { label: "NO DATA", className: "text-gray-600" };
             }
             const ageMinutes = (Date.now() - lastUpdateMs) / 60000;
             if (ageMinutes <= 2) {
-                el.innerText = "LIVE";
-                el.className = "text-[10px] font-bold text-green-400";
-            } else if (ageMinutes <= 10) {
-                el.innerText = "DELAYED";
-                el.className = "text-[10px] font-bold text-yellow-400";
-            } else {
-                el.innerText = "STALE";
-                el.className = "text-[10px] font-bold text-red-400";
+                return { label: "LIVE", className: "text-green-400" };
+            }
+            if (ageMinutes <= 10) {
+                return { label: "DELAYED", className: "text-yellow-400" };
+            }
+            return { label: "STALE", className: "text-red-400" };
+        }
+
+        function setSyncStatus(lastUpdateMs) {
+            const el = document.getElementById('sync-status');
+            if (!el) return;
+            const level = getSyncLevel(lastUpdateMs);
+            el.innerText = level.label;
+            el.className = `text-[10px] font-bold ${level.className}`;
+        }
+
+        function updateDataStamps() {
+            const level = getSyncLevel(lastStaticUpdateMs);
+            const stamp = lastStaticUpdateText ? `数据时间 ${lastStaticUpdateText} · ${level.label}` : level.label;
+            ['gold', 'silver', 'copper'].forEach(metal => {
+                const el = document.getElementById(`data-${metal}`);
+                if (el) {
+                    el.innerText = stamp;
+                    el.className = `text-[9px] font-bold ${level.className} mt-2`;
+                }
+            });
+            const inv = document.getElementById('inventory-stamp');
+            if (inv) {
+                inv.innerText = stamp;
+                inv.className = `text-[9px] font-bold ${level.className} mt-2`;
             }
         }
 
@@ -167,10 +187,13 @@
                     document.getElementById('clock').innerText = d.lastUpdate;
                     const parsed = parseBeijingTime(d.lastUpdate);
                     lastStaticUpdateMs = parsed ? parsed.getTime() : null;
+                    lastStaticUpdateText = d.lastUpdate;
                 }
                 setSyncStatus(lastStaticUpdateMs);
+                updateDataStamps();
             } catch(e) {
                 setSyncStatus(lastStaticUpdateMs);
+                updateDataStamps();
             }
         }
 
@@ -290,8 +313,10 @@
                     document.getElementById('clock').innerText = d.lastUpdate;
                     const parsed = parseBeijingTime(d.lastUpdate);
                     lastStaticUpdateMs = parsed ? parsed.getTime() : null;
+                    lastStaticUpdateText = d.lastUpdate;
                 }
                 setSyncStatus(lastStaticUpdateMs);
+                updateDataStamps();
                 
                 if (d.prices) {
                     ['gold', 'silver', 'copper'].forEach(metal => {
