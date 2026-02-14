@@ -1,18 +1,18 @@
 {
   "prices": {
     "gold": {
-      "price": 5022.0,
-      "change": "TradingView (Closed)",
+      "price": 5063.8,
+      "change": 0.02,
       "note": "Weekend Static"
     },
     "silver": {
-      "price": 77.851,
-      "change": "TradingView (Closed)",
+      "price": 77.27,
+      "change": -0.09,
       "currency": "USD"
     },
     "copper": {
-      "price": 5.7925,
-      "change": "Close",
+      "price": 5.788,
+      "change": 0.06,
       "currency": "USD"
     }
   },
@@ -140,7 +140,7 @@
     ]
   },
   "ai_brief": "金价5022美元，周末休市。伦敦金库库存温和回升，COMEX可交割库存加速流出，实物支撑强。白银库存连降，COMEX库存逼近临界点，实物极度紧张。铜库存小幅累积，工业需求信号偏弱。整体看，贵金属实物端支撑稳固，铜短期承压。",
-  "lastUpdate": "2026-02-14 16:26:41",
+  "lastUpdate": "2026-02-14 16:29:47",
   "ai_update_url": "http://localhost:9177/ai-update",
   "ai_meta": {
     "briefDate": "2026-02-14",
