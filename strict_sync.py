@@ -49,12 +49,12 @@ def update_repo():
         "gold": {
             "LBMA": "https://www.lbma.org.uk/prices-and-data/london-vault-data",
             "COMEX": "https://www.cmegroup.com/markets/metals/precious/gold.html",
-            "SHFE": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
+            "SHFE": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata&curr_year=2026&curr_month=2"
         },
         "silver": {
             "LBMA": "https://www.lbma.org.uk/prices-and-data/london-vault-data",
             "COMEX": "https://www.cmegroup.com/markets/metals/precious/silver.html",
-            "SHFE": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
+            "SHFE": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata&curr_year=2026&curr_month=2"
         },
         "copper": {
             "LME": "https://www.lme.com/en/Metals/Non-ferrous/LME-Copper#Stock+report",

@@ -39,7 +39,7 @@
         "amount": "985,400",
         "unit": "kg",
         "sync": "Feb 13 EOB",
-        "url": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
+        "url": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata&curr_year=2026&curr_month=2"
       }
     ],
     "gold": [
@@ -66,7 +66,7 @@
         "amount": "3,120",
         "unit": "kg",
         "sync": "Feb 13 EOB",
-        "url": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
+        "url": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata&curr_year=2026&curr_month=2"
       }
     ],
     "copper": [
@@ -88,5 +88,5 @@
       }
     ]
   },
-  "lastUpdate": "2026-02-14 11:45:41"
+  "lastUpdate": "2026-02-14 11:48:02"
 }
