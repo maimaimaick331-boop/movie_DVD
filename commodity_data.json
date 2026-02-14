@@ -2,8 +2,8 @@
   "prices": {
     "gold": {
       "price": 5063.8,
-      "change": "Close 02-13",
-      "currency": "USD"
+      "change": "Settled 2026-02-13",
+      "note": "Weekend Static"
     },
     "silver": {
       "price": 77.27,
@@ -140,5 +140,5 @@
     ]
   },
   "ai_brief": "【宋鸿兵逻辑校准】当前COMEX金价站稳5000。核心突破点：COMEX白银'Registered'库存加速流向临界阈值。当前呈现典型的'纸面压制、实物逃离'格局。建议关注3月5日LBMA全量金库披露，防范空头突发性踩踏。",
-  "lastUpdate": "2026-02-14 12:23:56"
+  "lastUpdate": "2026-02-14 12:26:38"
 }
