@@ -151,7 +151,10 @@
             const ch = document.getElementById(`change-${metal}`);
             if(!el || !ch) return;
             
-            const diff = ((price - prev)/prev * 100).toFixed(2);
+            // 周末逻辑：如果当前没有实时跳动（price === prev），则显示结算价
+            if (price === 0 || isNaN(price)) return;
+
+            const diff = prev !== 0 ? ((price - prev)/prev * 100).toFixed(2) : "0.00";
             const isUp = price >= prev;
             
             el.innerText =  (metal === 'copper' ? price.toFixed(4) : price.toFixed(2));
@@ -161,9 +164,22 @@
 
         async function loadStatic() {
             try {
-                const r = await fetch('commodity_data.json?t=' + Date.now());
+                // 增加随机参数，彻底击穿 CDN 缓存
+                const r = await fetch('commodity_data.json?nocache=' + Date.now());
                 const d = await r.json();
-                document.getElementById('clock').innerText = d.lastUpdate;
+                
+                // 强制同步服务器最后确定的权威时间
+                if (d.lastUpdate) {
+                    document.getElementById('clock').innerText = d.lastUpdate;
+                }
+                
+                // 周末停盘期间，强制覆盖前端不准的 Yahoo 实时源
+                const isWeekend = [0, 6].includes(new Date().getDay());
+                if(isWeekend && d.prices) {
+                    document.getElementById('price-gold').innerText = d.prices.gold.price;
+                    // ... 银铜同理
+                }
+
                 document.getElementById('ai-brief-content').innerText = d.ai_brief || 'System Idle';
 
                 let invHtml = '';
