@@ -121,6 +121,20 @@
 
         let lastStaticUpdateText = null;
 
+        function updateLocalClock() {
+            const el = document.getElementById('clock-local');
+            if (!el) return;
+            const now = new Date();
+            const timeText = now.toLocaleTimeString('zh-CN', { hour12: false });
+            el.innerText = timeText;
+        }
+
+        function updateDataClock(text) {
+            const el = document.getElementById('clock-data');
+            if (!el) return;
+            el.innerText = text ? `DATA ${text}` : "DATA --:--:--";
+        }
+
         function getSyncLevel(lastUpdateMs) {
             if (!lastUpdateMs) {
                 return { label: "NO DATA", className: "text-gray-600" };
@@ -187,10 +201,12 @@
                 const r = await fetch('commodity_data.json?t=' + Date.now());
                 const d = await r.json();
                 if (d.lastUpdate) {
-                    document.getElementById('clock').innerText = d.lastUpdate;
                     const parsed = parseBeijingTime(d.lastUpdate);
                     lastStaticUpdateMs = parsed ? parsed.getTime() : null;
                     lastStaticUpdateText = d.lastUpdate;
+                    updateDataClock(d.lastUpdate);
+                } else {
+                    updateDataClock(null);
                 }
                 setSyncStatus(lastStaticUpdateMs);
                 updateDataStamps();
@@ -313,10 +329,12 @@
                 const d = await r.json();
                 
                 if (d.lastUpdate) {
-                    document.getElementById('clock').innerText = d.lastUpdate;
                     const parsed = parseBeijingTime(d.lastUpdate);
                     lastStaticUpdateMs = parsed ? parsed.getTime() : null;
                     lastStaticUpdateText = d.lastUpdate;
+                    updateDataClock(d.lastUpdate);
+                } else {
+                    updateDataClock(null);
                 }
                 setSyncStatus(lastStaticUpdateMs);
                 updateDataStamps();
@@ -373,8 +391,10 @@
         setInterval(fetchLivePrices, 2000);
         setInterval(loadStatic, 10000);
         setInterval(fetchSyncTime, 5000);
+        setInterval(updateLocalClock, 1000);
         fetchLivePrices(); loadStatic();
         fetchSyncTime();
+        updateLocalClock();
     </script>
 </body>
 </html>
