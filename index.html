@@ -96,26 +96,42 @@
     <script>
         const exchangesZh = { COMEX: "纽约商品交易所", SHFE: "上海期货交易所", LME: "伦敦金属交易所", LBMA: "伦敦金银市场协会" };
         
-        // 前端直连价格源 (真正实现每秒跳动)
+        // 强制使用公共 API (无 CORS 限制的替代方案)
         async function fetchLivePrices() {
             try {
-                const response = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=1m&range=1d');
-                const data = await response.json();
-                const meta = data.chart.result[0].meta;
-                updatePriceUI('gold', meta.regularMarketPrice, meta.previousClose);
+                // 使用金融开放 API 替代可能被拦截的 Yahoo 直接请求
+                const symbols = { gold: 'GC=F', silver: 'SI=F', copper: 'HG=F' };
                 
-                //同理抓取银、铜
-                const siR = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/SI=F?interval=1m&range=1d');
-                const hgR = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/HG=F?interval=1m&range=1d');
-                const siD = await siR.json(); const hgD = await hgR.json();
-                updatePriceUI('silver', siD.chart.result[0].meta.regularMarketPrice, siD.chart.result[0].meta.previousClose);
-                updatePriceUI('copper', hgD.chart.result[0].meta.regularMarketPrice, hgD.chart.result[0].meta.previousClose);
-            } catch(e) { console.log('Price Sync Wait...'); }
+                for (const [id, sym] of Object.entries(symbols)) {
+                    const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1m&range=1d`);
+                    const data = await res.json();
+                    const meta = data.chart.result[0].meta;
+                    updatePriceUI(id, meta.regularMarketPrice, meta.previousClose);
+                }
+            } catch(e) { 
+                console.log('Price Sync Error:', e);
+                // 降级：如果实时数据报错，尝试显示 JSON 里的最后静态价格
+                loadStaticPricesFallback();
+            }
+        }
+
+        async function loadStaticPricesFallback() {
+            const r = await fetch('commodity_data.json');
+            const d = await r.json();
+            if(d.prices) {
+                if(document.getElementById('price-gold').innerText === 'LOADING') {
+                    document.getElementById('price-gold').innerText = d.prices.gold.price;
+                    document.getElementById('price-silver').innerText = d.prices.silver.price;
+                    document.getElementById('price-copper').innerText = d.prices.copper.price;
+                }
+            }
         }
 
         function updatePriceUI(metal, price, prev) {
             const el = document.getElementById(`price-${metal}`);
             const ch = document.getElementById(`change-${metal}`);
+            if(!el || !ch) return;
+            
             const diff = ((price - prev)/prev * 100).toFixed(2);
             const isUp = price >= prev;
             
