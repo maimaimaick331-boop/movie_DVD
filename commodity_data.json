@@ -75,16 +75,18 @@
         "category": "Global Inventory",
         "amount": "125,425",
         "unit": "ton",
-        "sync": "Official Update"
+        "sync": "Official Update",
+        "url": "#"
       },
       {
         "exchange": "SHFE",
         "category": "Warrants 仓单",
         "amount": "125,400",
         "unit": "ton",
-        "sync": "Feb 13 EOB"
+        "sync": "Feb 13 EOB",
+        "url": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
       }
     ]
   },
-  "lastUpdate": "2026-02-14 10:37:48"
+  "lastUpdate": "2026-02-14 11:19:59"
 }
