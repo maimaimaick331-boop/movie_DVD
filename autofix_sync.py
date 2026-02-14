@@ -13,24 +13,16 @@ def get_accurate_prices():
     try:
         # 1. 抓取纽约金期货 (交易活跃源)
         gc = yf.Ticker("GC=F").history(period="1d", interval="1m")
-        # 2. 抓取伦敦现货金 (XAU/USD)
-        xau = yf.Ticker("XAUUSD=X").history(period="1d")
-        # 3. 抓取白银期货
-        si = yf.Ticker("SI=F").history(period="1d", interval="1m")
-        # 4. 抓取铜期货
-        hg = yf.Ticker("HG=F").history(period="1d", interval="1m")
-
-        # 提取最新价
-        p_gold = gc['Close'].iloc[-1] if not gc.empty else None
-        p_silver = si['Close'].iloc[-1] if not si.empty else None
-        p_copper = hg['Close'].iloc[-1] if not hg.empty else None
-        
-        # 计算涨跌幅
-        pc_gold = gc['Open'].iloc[0]
-        change_gold = ((p_gold - pc_gold) / pc_gold * 100) if p_gold else 0
+        # 2. 抓取伦敦现货金 (XAU/USD) - 增加兜底逻辑
+        try:
+            xau_ticker = yf.Ticker("XAUUSD=X")
+            xau = xau_ticker.history(period="1d")
+            p_spot = xau['Close'].iloc[-1] if not xau.empty else p_gold
+        except:
+            p_spot = p_gold # 如果现货接口挂了，用活跃期货补位
 
         return {
-            "gold": {"price": round(float(p_gold), 2), "change": f"{change_gold:.2f}%"},
+            "gold": {"price": round(float(p_gold), 2), "change": f"{change_gold:.2f}%", "spot": round(float(p_spot), 2)},
             "silver": {"price": round(float(p_silver), 3), "change": "Live"},
             "copper": {"price": round(float(p_copper), 4), "change": "Live"}
         }
