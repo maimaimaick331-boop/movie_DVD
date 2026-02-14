@@ -22,6 +22,7 @@
         "amount": "27,729",
         "unit": "ton",
         "sync": "End Jan 2026",
+        "url": "https://www.lbma.org.uk/prices-and-data/london-vault-data",
         "note": "Next update ~Mar 5"
       },
       {
@@ -29,14 +30,16 @@
         "category": "Registered 可交割",
         "amount": "68,450,000",
         "unit": "oz",
-        "sync": "Daily Official"
+        "sync": "Daily Official",
+        "url": "https://www.cmegroup.com/clearing/operations-and-financial-reporting/registrar-reports.html"
       },
       {
         "exchange": "SHFE",
         "category": "Warrants 仓单",
         "amount": "985,400",
         "unit": "kg",
-        "sync": "Feb 13 EOB"
+        "sync": "Feb 13 EOB",
+        "url": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
       }
     ],
     "gold": [
@@ -46,6 +49,7 @@
         "amount": "9,158",
         "unit": "ton",
         "sync": "End Jan 2026",
+        "url": "https://www.lbma.org.uk/prices-and-data/london-vault-data",
         "note": "Next update ~Mar 5"
       },
       {
@@ -53,14 +57,16 @@
         "category": "Registered 可交割",
         "amount": "7,452,100",
         "unit": "oz",
-        "sync": "Daily Official"
+        "sync": "Daily Official",
+        "url": "https://www.cmegroup.com/clearing/operations-and-financial-reporting/registrar-reports.html"
       },
       {
         "exchange": "SHFE",
         "category": "Warrants 仓单",
         "amount": "3,120",
         "unit": "kg",
-        "sync": "Feb 13 EOB"
+        "sync": "Feb 13 EOB",
+        "url": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
       }
     ],
     "copper": [

@@ -167,7 +167,9 @@
                                         </div>
                                         <div class="flex justify-between mt-1">
                                             <span class="text-[9px] text-gray-600 font-black uppercase tracking-tighter">${it.category}</span>
-                                            <span class="text-[8px] text-blue-900 font-bold uppercase">Authentic</span>
+                                            <a href="${it.url || '#'}" target="_blank" class="text-[8px] text-blue-500 font-bold uppercase hover:text-blue-300 transition-colors">
+                                                [Source 溯源]
+                                            </a>
                                         </div>
                                     </div>
                                 `).join('')}
