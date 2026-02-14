@@ -1,16 +1,16 @@
 {
   "prices": {
     "gold": {
-      "price": 43300.0,
+      "price": 5063.8,
       "change": "Spot",
       "currency": "THB"
     },
     "silver": {
-      "price": 77.45,
+      "price": 77.27,
       "change": "2.34%"
     },
     "copper": {
-      "price": 5.8035,
+      "price": 5.788,
       "change": "0.31%"
     }
   },
@@ -80,5 +80,5 @@
       }
     ]
   },
-  "lastUpdate": "2026-02-14 08:35:00"
+  "lastUpdate": "2026-02-14 10:37:48"
 }
