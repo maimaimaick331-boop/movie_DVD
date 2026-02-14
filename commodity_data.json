@@ -1,9 +1,9 @@
 {
-  "lastUpdate": "01:59:17",
   "prices": {
     "gold": {
-      "price": 5042.9,
-      "change": "1.91%"
+      "price": 43300.0,
+      "change": "Spot",
+      "currency": "THB"
     },
     "silver": {
       "price": 77.45,
@@ -15,60 +15,70 @@
     }
   },
   "inventory": {
-    "gold": [
-      {
-        "exchange": "COMEX",
-        "amount": "7,452,100",
-        "unit": "oz",
-        "sync": "Daily Official",
-        "category": "Registered 可交割"
-      },
-      {
-        "exchange": "SHFE",
-        "amount": "3,120",
-        "unit": "kg",
-        "sync": "Feb 13 EOB",
-        "category": "Warrants 仓单"
-      },
-      {
-        "exchange": "LME",
-        "amount": "12.5",
-        "unit": "ton",
-        "sync": "T-2 Confirmed",
-        "category": "Warehouse 现货"
-      }
-    ],
     "silver": [
       {
+        "exchange": "LBMA",
+        "category": "London Vault Holdings",
+        "amount": "27,729",
+        "unit": "ton",
+        "sync": "End Jan 2026",
+        "note": "Next update ~Mar 5"
+      },
+      {
         "exchange": "COMEX",
+        "category": "Registered 可交割",
         "amount": "68,450,000",
         "unit": "oz",
-        "sync": "Daily Official",
-        "category": "Registered 可交割"
+        "sync": "Daily Official"
       },
       {
         "exchange": "SHFE",
+        "category": "Warrants 仓单",
         "amount": "985,400",
         "unit": "kg",
-        "sync": "Feb 13 EOB",
-        "category": "Warrants 仓单"
+        "sync": "Feb 13 EOB"
+      }
+    ],
+    "gold": [
+      {
+        "exchange": "LBMA",
+        "category": "London Vault Holdings",
+        "amount": "9,158",
+        "unit": "ton",
+        "sync": "End Jan 2026",
+        "note": "Next update ~Mar 5"
+      },
+      {
+        "exchange": "COMEX",
+        "category": "Registered 可交割",
+        "amount": "7,452,100",
+        "unit": "oz",
+        "sync": "Daily Official"
+      },
+      {
+        "exchange": "SHFE",
+        "category": "Warrants 仓单",
+        "amount": "3,120",
+        "unit": "kg",
+        "sync": "Feb 13 EOB"
       }
     ],
     "copper": [
       {
         "exchange": "LME",
+        "category": "Global Inventory",
         "amount": "125,425",
         "unit": "ton",
-        "sync": "Official Update",
-        "category": "Global Inventory"
+        "sync": "Official Update"
       },
       {
         "exchange": "SHFE",
+        "category": "Warrants 仓单",
         "amount": "125,400",
         "unit": "ton",
-        "sync": "Feb 13 EOB",
-        "category": "Warrants 仓单"
+        "sync": "Feb 13 EOB"
       }
     ]
-  }
+  },
+  "lastUpdate": "2026-02-14 08:35:00"
 }
