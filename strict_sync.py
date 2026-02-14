@@ -43,10 +43,10 @@ def update_repo():
     data['prices']['silver']['price'] = prices['silver']
     data['prices']['copper']['price'] = prices['copper']
     
-    # 2. 注入溯源链接 (确保前端跳转)
+    # 2. 注入溯源链接 (修复 404，确保是直达数据的最终 URL)
     source_map = {
         "LBMA": "https://www.lbma.org.uk/prices-and-data/london-vault-data",
-        "COMEX": "https://www.cmegroup.com/clearing/operations-and-financial-reporting/registrar-reports.html",
+        "COMEX": "https://www.cmegroup.com/markets/metals/precious/gold.html",
         "SHFE": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
     }
 

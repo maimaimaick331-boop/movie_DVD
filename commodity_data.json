@@ -31,7 +31,7 @@
         "amount": "68,450,000",
         "unit": "oz",
         "sync": "Daily Official",
-        "url": "https://www.cmegroup.com/clearing/operations-and-financial-reporting/registrar-reports.html"
+        "url": "https://www.cmegroup.com/markets/metals/precious/gold.html"
       },
       {
         "exchange": "SHFE",
@@ -58,7 +58,7 @@
         "amount": "7,452,100",
         "unit": "oz",
         "sync": "Daily Official",
-        "url": "https://www.cmegroup.com/clearing/operations-and-financial-reporting/registrar-reports.html"
+        "url": "https://www.cmegroup.com/markets/metals/precious/gold.html"
       },
       {
         "exchange": "SHFE",
@@ -88,5 +88,5 @@
       }
     ]
   },
-  "lastUpdate": "2026-02-14 11:32:46"
+  "lastUpdate": "2026-02-14 11:33:22"
 }

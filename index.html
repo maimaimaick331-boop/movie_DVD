@@ -112,6 +112,16 @@
                 console.log('Price Sync Error:', e);
                 // 降级：如果实时数据报错，尝试显示 JSON 里的最后静态价格
                 loadStaticPricesFallback();
+        // 核心同步时间刷新
+        async function fetchSyncTime() {
+            try {
+                const r = await fetch('commodity_data.json?t=' + Date.now());
+                const d = await r.json();
+                document.getElementById('clock').innerText = d.lastUpdate || 'SYNC ERR';
+            } catch(e) {}
+        }
+        setInterval(fetchSyncTime, 5000);
+        fetchSyncTime();
             }
         }
 
