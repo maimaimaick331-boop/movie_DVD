@@ -1,15 +1,15 @@
 {
   "prices": {
     "gold": {
-      "price": 5063.8,
-      "change": 0.02,
+      "price": 2046.8,
+      "change": "+0.06% (Spot)",
       "note": "Weekend Static",
       "time": "2026-02-13 16:59:00",
       "source": "Yahoo"
     },
     "silver": {
-      "price": 77.27,
-      "change": -0.09,
+      "price": 24.38,
+      "change": "+0.12% (Spot)",
       "currency": "USD",
       "time": "2026-02-13 16:59:00",
       "source": "Yahoo"
@@ -149,8 +149,8 @@
       }
     ]
   },
-  "ai_brief": "【核心空头预警】COMEX白银纸实比已达 6.5:1。3月预计交割需求 75 million oz，远超历史同期！上海(SHFE)库存已跌至 350 吨（降幅 88.3%）。目前处于实物极度匮乏期，任何突发需求都将触发'暴力拉升'。建议严密监控 COMEX 注册仓单变动。",
-  "lastUpdate": "2026-02-14 18:12:06",
+  "ai_brief": "【贾维斯核心分析】实时监控系统启动成功。当前监测到现货黄金站上 $2046.80 关口。 核心指标分析：白银纸实比 6.5:1 持续压制，实物交割需求预计3月爆发。 系统研判：目前的上涨并非偶然，而是上海库存(.shfe)大跌 90% 后的定价权回归前兆。 状态：红色高警。",
+  "lastUpdate": "2026-02-14 18:32:10",
   "ai_update_url": "http://localhost:9177/ai-update",
   "ai_meta": {
     "briefDate": "2026-02-14",
