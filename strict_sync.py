@@ -43,17 +43,29 @@ def update_repo():
     data['prices']['silver']['price'] = prices['silver']
     data['prices']['copper']['price'] = prices['copper']
     
-    # 2. 注入溯源链接 (修复 404，确保是直达数据的最终 URL)
-    source_map = {
-        "LBMA": "https://www.lbma.org.uk/prices-and-data/london-vault-data",
-        "COMEX": "https://www.cmegroup.com/markets/metals/precious/gold.html",
-        "SHFE": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
+    # 2. 注入关联金属的精准溯源链接 (修复张冠李戴问题)
+    # 每个交易所针对不同金属有不同的数据发布页
+    source_links = {
+        "gold": {
+            "LBMA": "https://www.lbma.org.uk/prices-and-data/london-vault-data",
+            "COMEX": "https://www.cmegroup.com/markets/metals/precious/gold.html",
+            "SHFE": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
+        },
+        "silver": {
+            "LBMA": "https://www.lbma.org.uk/prices-and-data/london-vault-data",
+            "COMEX": "https://www.cmegroup.com/markets/metals/precious/silver.html",
+            "SHFE": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
+        },
+        "copper": {
+            "LME": "https://www.lme.com/en/Metals/Non-ferrous/LME-Copper#Stock+report",
+            "SHFE": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
+        }
     }
 
     for metal in ['gold', 'silver', 'copper']:
         if metal in data['inventory']:
             for item in data['inventory'][metal]:
-                item['url'] = source_map.get(item['exchange'], "#")
+                item['url'] = source_links.get(metal, {}).get(item['exchange'], "#")
 
     # 3. 更新时间 (使用系统当前北京时间)
     data['lastUpdate'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

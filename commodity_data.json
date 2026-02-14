@@ -31,7 +31,7 @@
         "amount": "68,450,000",
         "unit": "oz",
         "sync": "Daily Official",
-        "url": "https://www.cmegroup.com/markets/metals/precious/gold.html"
+        "url": "https://www.cmegroup.com/markets/metals/precious/silver.html"
       },
       {
         "exchange": "SHFE",
@@ -76,7 +76,7 @@
         "amount": "125,425",
         "unit": "ton",
         "sync": "Official Update",
-        "url": "#"
+        "url": "https://www.lme.com/en/Metals/Non-ferrous/LME-Copper#Stock+report"
       },
       {
         "exchange": "SHFE",
@@ -88,5 +88,5 @@
       }
     ]
   },
-  "lastUpdate": "2026-02-14 11:33:22"
+  "lastUpdate": "2026-02-14 11:45:41"
 }
