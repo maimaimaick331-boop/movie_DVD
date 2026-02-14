@@ -23,13 +23,22 @@
     <header class="flex justify-between items-center mb-6">
         <div class="flex items-center gap-4">
             <div class="bg-blue-600 text-black px-2 py-0.5 text-[11px] font-black italic">JARVIS PRO</div>
-            <h1 class="text-xs font-black tracking-[.4em] uppercase opacity-70">Intelligence Network <span class="text-blue-500">v4.5</span></h1>
+            <h1 class="text-xs font-black tracking-[.4em] uppercase opacity-70">Intelligence Network <span class="text-blue-500">v5.0 (AI Edition)</span></h1>
         </div>
         <div class="flex items-center gap-6 text-[10px] font-bold text-gray-600">
             <div class="flex items-center gap-2"><div class="live-pulse"></div> <span id="sync-status">STREAMING</span></div>
             <div id="clock" class="mono">--:--:--</div>
         </div>
     </header>
+
+    <!-- AI AGENT INTELLIGENCE BRIEF -->
+    <div class="cell p-4 rounded mb-8 border-l-4 border-blue-500 bg-blue-900/5">
+        <div class="flex items-center gap-2 mb-2">
+            <span class="text-[10px] font-black bg-blue-500 text-black px-2">AI AGENT BRIEF</span>
+            <span class="text-[9px] text-blue-400 font-bold uppercase tracking-widest">Logic Source: Song Hongbing 2025 Analysis</span>
+        </div>
+        <p id="ai-brief-content" class="text-sm text-blue-100 italic leading-relaxed">Analyzing market signals...</p>
+    </div>
 
     <!-- TOP PRICES - REAL TIME DIRECT FEEDS -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -152,9 +161,10 @@
 
         async function loadStatic() {
             try {
-                const r = await fetch('commodity_data.json');
+                const r = await fetch('commodity_data.json?t=' + Date.now());
                 const d = await r.json();
                 document.getElementById('clock').innerText = d.lastUpdate;
+                document.getElementById('ai-brief-content').innerText = d.ai_brief || 'System Idle';
 
                 let invHtml = '';
                 ['gold', 'silver', 'copper'].forEach(metal => {

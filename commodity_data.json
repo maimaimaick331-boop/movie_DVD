@@ -1,92 +1,35 @@
 {
   "prices": {
-    "gold": {
-      "price": 5063.8,
-      "change": "Spot",
-      "currency": "THB"
-    },
-    "silver": {
-      "price": 77.27,
-      "change": "2.34%"
-    },
-    "copper": {
-      "price": 5.788,
-      "change": "0.31%"
-    }
+    "gold": { "price": 5042.20, "change": "Close" },
+    "silver": { "price": 77.27, "change": "Close" },
+    "copper": { "price": 5.788, "change": "Close" }
   },
   "inventory": {
     "silver": [
       {
         "exchange": "LBMA",
-        "category": "London Vault Holdings",
+        "category": "Vault Holdings",
         "amount": "27,729",
         "unit": "ton",
-        "sync": "End Jan 2026",
+        "sync": "Jan 2026",
         "url": "https://www.lbma.org.uk/prices-and-data/london-vault-data",
-        "note": "Next update ~Mar 5"
-      },
-      {
-        "exchange": "COMEX",
-        "category": "Registered 可交割",
-        "amount": "68,450,000",
-        "unit": "oz",
-        "sync": "Daily Official",
-        "url": "https://www.cmegroup.com/markets/metals/precious/silver.html"
-      },
-      {
-        "exchange": "SHFE",
-        "category": "Warrants 仓单",
-        "amount": "985,400",
-        "unit": "kg",
-        "sync": "Feb 13 EOB",
-        "url": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata&curr_year=2026&curr_month=2"
+        "history": [28100, 27950, 27729],
+        "trend": "down"
       }
     ],
     "gold": [
       {
         "exchange": "LBMA",
-        "category": "London Vault Holdings",
+        "category": "Vault Holdings",
         "amount": "9,158",
         "unit": "ton",
-        "sync": "End Jan 2026",
+        "sync": "Jan 2026",
         "url": "https://www.lbma.org.uk/prices-and-data/london-vault-data",
-        "note": "Next update ~Mar 5"
-      },
-      {
-        "exchange": "COMEX",
-        "category": "Registered 可交割",
-        "amount": "7,452,100",
-        "unit": "oz",
-        "sync": "Daily Official",
-        "url": "https://www.cmegroup.com/markets/metals/precious/gold.html"
-      },
-      {
-        "exchange": "SHFE",
-        "category": "Warrants 仓单",
-        "amount": "3,120",
-        "unit": "kg",
-        "sync": "Feb 13 EOB",
-        "url": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata&curr_year=2026&curr_month=2"
-      }
-    ],
-    "copper": [
-      {
-        "exchange": "LME",
-        "category": "Global Inventory",
-        "amount": "125,425",
-        "unit": "ton",
-        "sync": "Official Update",
-        "url": "https://www.lme.com/en/Metals/Non-ferrous/LME-Copper#Stock+report"
-      },
-      {
-        "exchange": "SHFE",
-        "category": "Warrants 仓单",
-        "amount": "125,400",
-        "unit": "ton",
-        "sync": "Feb 13 EOB",
-        "url": "https://www.shfe.com.cn/statements/dataview.html?paramid=dailydata"
+        "history": [9020, 9110, 9158],
+        "trend": "up"
       }
     ]
   },
-  "lastUpdate": "2026-02-14 11:48:02"
+  "ai_brief": "【宋鸿兵逻辑校准】当前COMEX金价站稳5000大关，但LBMA银库存环比连降三月（2.81万->2.77万），触发'实物挤仓'预警。短期纸面价格受QE6预期波动，实物防御性移仓迹象明显。建议关注3月5日库存临界点。",
+  "lastUpdate": "2026-02-14 11:58:00"
 }
