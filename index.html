@@ -104,11 +104,43 @@
 
     <script>
         const exchangesZh = { COMEX: "纽约商品交易所", SHFE: "上海期货交易所", LME: "伦敦金属交易所", LBMA: "伦敦金银市场协会" };
-        
-        // 强制使用公共 API (无 CORS 限制的替代方案)
+        let lastStaticUpdateMs = null;
+
+        function parseBeijingTime(value) {
+            if (!value) return null;
+            const parsed = new Date(value.replace(' ', 'T') + '+08:00');
+            return Number.isNaN(parsed.getTime()) ? null : parsed;
+        }
+
+        function setSyncStatus(lastUpdateMs) {
+            const el = document.getElementById('sync-status');
+            if (!el) return;
+            if (!lastUpdateMs) {
+                el.innerText = "NO DATA";
+                el.className = "text-[10px] font-bold text-gray-600";
+                return;
+            }
+            const ageMinutes = (Date.now() - lastUpdateMs) / 60000;
+            if (ageMinutes <= 2) {
+                el.innerText = "LIVE";
+                el.className = "text-[10px] font-bold text-green-400";
+            } else if (ageMinutes <= 10) {
+                el.innerText = "DELAYED";
+                el.className = "text-[10px] font-bold text-yellow-400";
+            } else {
+                el.innerText = "STALE";
+                el.className = "text-[10px] font-bold text-red-400";
+            }
+        }
+
+        function shouldUseLivePrice() {
+            if (!lastStaticUpdateMs) return true;
+            return (Date.now() - lastStaticUpdateMs) > 5 * 60 * 1000;
+        }
+
         async function fetchLivePrices() {
+            if (!shouldUseLivePrice()) return;
             try {
-                // 使用金融开放 API 替代可能被拦截的 Yahoo 直接请求
                 const symbols = { gold: 'GC=F', silver: 'SI=F', copper: 'HG=F' };
                 
                 for (const [id, sym] of Object.entries(symbols)) {
@@ -119,18 +151,22 @@
                 }
             } catch(e) { 
                 console.log('Price Sync Error:', e);
-                // 降级：如果实时数据报错，尝试显示 JSON 里的最后静态价格
                 loadStaticPricesFallback();
-        // 核心同步时间刷新
+            }
+        }
+
         async function fetchSyncTime() {
             try {
                 const r = await fetch('commodity_data.json?t=' + Date.now());
                 const d = await r.json();
-                document.getElementById('clock').innerText = d.lastUpdate || 'SYNC ERR';
-            } catch(e) {}
-        }
-        setInterval(fetchSyncTime, 5000);
-        fetchSyncTime();
+                if (d.lastUpdate) {
+                    document.getElementById('clock').innerText = d.lastUpdate;
+                    const parsed = parseBeijingTime(d.lastUpdate);
+                    lastStaticUpdateMs = parsed ? parsed.getTime() : null;
+                }
+                setSyncStatus(lastStaticUpdateMs);
+            } catch(e) {
+                setSyncStatus(lastStaticUpdateMs);
             }
         }
 
@@ -138,11 +174,11 @@
             const r = await fetch('commodity_data.json');
             const d = await r.json();
             if(d.prices) {
-                if(document.getElementById('price-gold').innerText === 'LOADING') {
-                    document.getElementById('price-gold').innerText = d.prices.gold.price;
-                    document.getElementById('price-silver').innerText = d.prices.silver.price;
-                    document.getElementById('price-copper').innerText = d.prices.copper.price;
-                }
+                ['gold', 'silver', 'copper'].forEach(metal => {
+                    const price = d.prices[metal]?.price;
+                    const change = d.prices[metal]?.change;
+                    setPriceFromStatic(metal, price, change);
+                });
             }
         }
 
@@ -162,22 +198,103 @@
             ch.className = `px-2 py-1 text-[10px] font-black rounded ${isUp ? 'up-bg text-green-400' : 'down-bg text-red-400'}`;
         }
 
+        function parseNumber(value) {
+            if (value === null || value === undefined) return NaN;
+            const num = Number(String(value).replace(/,/g, ''));
+            return Number.isNaN(num) ? NaN : num;
+        }
+
+        function setPriceFromStatic(metal, priceValue, changeValue) {
+            const el = document.getElementById(`price-${metal}`);
+            const ch = document.getElementById(`change-${metal}`);
+            if (!el || !ch) return;
+            const priceNumber = parseNumber(priceValue);
+            if (!Number.isNaN(priceNumber)) {
+                el.innerText = metal === 'copper' ? priceNumber.toFixed(4) : priceNumber.toFixed(2);
+            } else if (priceValue !== undefined && priceValue !== null) {
+                el.innerText = String(priceValue);
+            }
+            if (changeValue === undefined || changeValue === null || changeValue === "") {
+                ch.innerText = "--";
+                ch.className = "px-2 py-1 text-[10px] font-black rounded bg-gray-900/60 text-gray-400 border border-gray-800";
+                return;
+            }
+            const numericChange = parseFloat(String(changeValue).replace('%', ''));
+            if (!Number.isNaN(numericChange)) {
+                const isUp = numericChange >= 0;
+                ch.innerText = `${numericChange >= 0 ? '+' : ''}${numericChange.toFixed(2)}%`;
+                ch.className = `px-2 py-1 text-[10px] font-black rounded ${isUp ? 'up-bg text-green-400' : 'down-bg text-red-400'}`;
+            } else {
+                ch.innerText = String(changeValue);
+                ch.className = "px-2 py-1 text-[10px] font-black rounded bg-gray-900/60 text-gray-400 border border-gray-800";
+            }
+        }
+
+        function renderHistoryTrend(item) {
+            if (!item.history || !item.history.length) return '';
+            const values = item.history.map(h => parseNumber(h.val)).filter(v => !Number.isNaN(v));
+            if (!values.length) return '';
+            const min = Math.min(...values);
+            const max = Math.max(...values);
+            const range = max - min || 1;
+            const lastValue = values[values.length - 1];
+            const prevValue = values.length > 1 ? values[values.length - 2] : lastValue;
+            const delta = lastValue - prevValue;
+            const deltaPct = prevValue ? ((delta / prevValue) * 100).toFixed(2) : "0.00";
+            const trendUp = delta >= 0;
+            const bars = item.history.map((h, idx) => {
+                const val = parseNumber(h.val);
+                const ratio = Number.isNaN(val) ? 0 : (val - min) / range;
+                const height = Math.round(18 + ratio * 34);
+                const isLast = idx === item.history.length - 1;
+                return `
+                    <div class="flex flex-col items-center gap-1">
+                        <div class="w-2 rounded-sm ${isLast ? 'bg-blue-500' : 'bg-gray-700'}" style="height:${height}px"></div>
+                        <div class="text-[8px] text-gray-600 font-bold">${h.date}</div>
+                    </div>
+                `;
+            }).join('');
+            const current = parseNumber(item.amount);
+            const currentText = Number.isNaN(current) ? item.amount : current.toLocaleString('en-US');
+            return `
+                <div class="mt-2 bg-gray-900/40 p-3 rounded border border-gray-800/60">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[8px] text-gray-500 font-bold uppercase tracking-widest">History Trend</span>
+                        <span class="text-[9px] font-black ${trendUp ? 'text-green-400' : 'text-red-400'}">${trendUp ? '+' : ''}${deltaPct}%</span>
+                    </div>
+                    <div class="flex items-end justify-between gap-3">
+                        <div class="flex items-end gap-2">${bars}</div>
+                        <div class="text-right">
+                            <div class="text-[10px] text-gray-500 font-bold uppercase">Latest</div>
+                            <div class="text-lg font-black text-white mono">${currentText}</div>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-[9px] text-blue-300 leading-tight border-t border-gray-800 pt-2">
+                        <span class="text-blue-600 font-black">AI解读:</span> ${item.interpretation || ''}
+                    </div>
+                </div>
+            `;
+        }
+
         async function loadStatic() {
             try {
                 // 增加随机参数，彻底击穿 CDN 缓存
                 const r = await fetch('commodity_data.json?nocache=' + Date.now());
                 const d = await r.json();
                 
-                // 强制同步服务器最后确定的权威时间
                 if (d.lastUpdate) {
                     document.getElementById('clock').innerText = d.lastUpdate;
+                    const parsed = parseBeijingTime(d.lastUpdate);
+                    lastStaticUpdateMs = parsed ? parsed.getTime() : null;
                 }
+                setSyncStatus(lastStaticUpdateMs);
                 
-                // 周末停盘期间，强制覆盖前端不准的 Yahoo 实时源
-                const isWeekend = [0, 6].includes(new Date().getDay());
-                if(isWeekend && d.prices) {
-                    document.getElementById('price-gold').innerText = d.prices.gold.price;
-                    // ... 银铜同理
+                if (d.prices) {
+                    ['gold', 'silver', 'copper'].forEach(metal => {
+                        const price = d.prices[metal]?.price;
+                        const change = d.prices[metal]?.change;
+                        setPriceFromStatic(metal, price, change);
+                    });
                 }
 
                 document.getElementById('ai-brief-content').innerText = d.ai_brief || 'System Idle';
@@ -202,21 +319,7 @@
                                             <span class="text-[10px] text-gray-500 font-black uppercase ml-2">${it.unit}</span>
                                         </div>
                                         
-                                        <!-- 历史记录展示区 -->
-                                        ${it.history ? `
-                                            <div class="mt-2 bg-gray-900/40 p-2 rounded border border-gray-800/50">
-                                                <div class="flex justify-between text-[8px] text-gray-500 font-bold mb-1 uppercase">
-                                                    <span>History Trend</span>
-                                                    <span class="text-blue-900">Sequence Analysis</span>
-                                                </div>
-                                                <div class="flex gap-2 mb-2 italic">
-                                                    ${it.history.map(h => `<div class="text-[9px] text-gray-400 font-black">${h.date}: <span class="${h.val > it.amount ? 'text-blue-400' : 'text-green-600'}">${h.val}</span></div>`).join('<span class="text-gray-800">|</span>')}
-                                                </div>
-                                                <p class="text-[9px] text-blue-300 leading-tight border-t border-gray-800 pt-1 mt-1">
-                                                    <span class="text-blue-600 font-black">AI解读:</span> ${it.interpretation}
-                                                </p>
-                                            </div>
-                                        ` : ''}
+                                        ${renderHistoryTrend(it)}
 
                                         <div class="flex justify-between mt-1">
                                             <span class="text-[9px] text-gray-600 font-black uppercase tracking-tighter">${it.category}</span>
@@ -235,9 +338,11 @@
         }
 
         // 定时刷新逻辑
-        setInterval(fetchLivePrices, 2000); // 价格 2 秒一刷
-        setInterval(loadStatic, 10000); // 仓库库存 10 秒一刷
+        setInterval(fetchLivePrices, 2000);
+        setInterval(loadStatic, 10000);
+        setInterval(fetchSyncTime, 5000);
         fetchLivePrices(); loadStatic();
+        fetchSyncTime();
     </script>
 </body>
 </html>
