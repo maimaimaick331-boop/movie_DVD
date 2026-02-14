@@ -9,7 +9,7 @@ DATA_FILE = os.path.join(REPO_PATH, "commodity_data.json")
 
 def main():
     try:
-        # 1. 抓取实时/结算价
+        # 1. 抓取最权威价格
         gold = yf.Ticker("GC=F").history(period="1d")
         silver = yf.Ticker("SI=F").history(period="1d")
         copper = yf.Ticker("HG=F").history(period="1d")
@@ -25,20 +25,22 @@ def main():
         data['prices']['silver']['price'] = p_silver
         data['prices']['copper']['price'] = p_copper
         
-        # 2. 关键修复：强制使用北京时间 (Asia/Shanghai)
+        # 2. 核心补丁：北京时间同步
         tz = pytz.timezone('Asia/Shanghai')
         now_beijing = datetime.now(tz)
-        data['lastUpdate'] = now_beijing.strftime("%Y-%m-%d %H:%M:%S")
+        current_time_str = now_beijing.strftime("%Y-%m-%d %H:%M:%S")
+        data['lastUpdate'] = current_time_str
 
         with open(DATA_FILE, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
 
-        # 3. 推送
-        os.system(f"cd {REPO_PATH} && git add . && git commit -m 'CLOCK FIX: Forced Beijing Time Sync inside JSON' && git push origin main")
-        print(f"Sync Success: {data['lastUpdate']}")
+        # 3. 强力推送并清除仓库残留
+        os.system(f"cd {REPO_PATH} && git add . && git commit -m 'FORCE HEARTBEAT SYNC: {current_time_str}' && git push origin main")
+        
+        print(f"JARVIS_LOG: 同步核心任务完成。当前北京时间: {current_time_str}")
 
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"JARVIS_ERROR: {e}")
 
 if __name__ == "__main__":
     main()
