@@ -27,7 +27,10 @@
         </div>
         <div class="flex items-center gap-6 text-[10px] font-bold text-gray-600">
             <div class="flex items-center gap-2"><div class="live-pulse"></div> <span id="sync-status">STREAMING</span></div>
-            <div id="clock" class="mono">--:--:--</div>
+            <div class="flex flex-col items-end leading-tight">
+                <div id="clock-local" class="mono text-[11px] text-gray-300">--:--:--</div>
+                <div id="clock-data" class="mono text-[9px] text-gray-500">DATA --:--:--</div>
+            </div>
         </div>
     </header>
 
