@@ -1,21 +1,21 @@
 {
   "prices": {
     "gold": {
-      "price": 2046.8,
+      "price": 5030.1,
       "change": "+0.06% (Spot)",
       "note": "Weekend Static",
       "time": "2026-02-13 16:59:00",
       "source": "Yahoo"
     },
     "silver": {
-      "price": 24.38,
+      "price": 76.2,
       "change": "+0.12% (Spot)",
       "currency": "USD",
       "time": "2026-02-13 16:59:00",
       "source": "Yahoo"
     },
     "copper": {
-      "price": 5.788,
+      "price": 5.7675,
       "change": 0.06,
       "currency": "USD",
       "time": "2026-02-13 16:59:00",
@@ -150,7 +150,7 @@
     ]
   },
   "ai_brief": "【贾维斯核心分析】实时监控系统启动成功。当前监测到现货黄金站上 $2046.80 关口。 核心指标分析：白银纸实比 6.5:1 持续压制，实物交割需求预计3月爆发。 系统研判：目前的上涨并非偶然，而是上海库存(.shfe)大跌 90% 后的定价权回归前兆。 状态：红色高警。",
-  "lastUpdate": "2026-02-14 18:32:10",
+  "lastUpdate": "2026-02-16 10:46:43",
   "ai_update_url": "http://localhost:9177/ai-update",
   "ai_meta": {
     "briefDate": "2026-02-14",
