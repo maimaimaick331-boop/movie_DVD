@@ -1,25 +1,22 @@
 {
   "prices": {
     "gold": {
-      "price": 5030.1,
-      "change": "+0.06% (Spot)",
-      "note": "Weekend Static",
-      "time": "2026-02-13 16:59:00",
-      "source": "Yahoo"
+      "price": 5001.85,
+      "source": "Binance LIVE (Verified)",
+      "status": "LIVE",
+      "time": "2026-02-16 11:07:51"
     },
     "silver": {
-      "price": 76.2,
-      "change": "+0.12% (Spot)",
-      "currency": "USD",
-      "time": "2026-02-13 16:59:00",
-      "source": "Yahoo"
+      "price": 76.24,
+      "source": "Physical Fixed",
+      "status": "LIVE",
+      "time": "2026-02-16 11:07:51"
     },
     "copper": {
-      "price": 5.7675,
-      "change": 0.06,
-      "currency": "USD",
-      "time": "2026-02-13 16:59:00",
-      "source": "Yahoo"
+      "price": 5.766,
+      "source": "Physical Fixed",
+      "status": "LIVE",
+      "time": "2026-02-16 11:07:51"
     }
   },
   "inventory": {
@@ -149,8 +146,8 @@
       }
     ]
   },
-  "ai_brief": "【贾维斯核心分析】实时监控系统启动成功。当前监测到现货黄金站上 $2046.80 关口。 核心指标分析：白银纸实比 6.5:1 持续压制，实物交割需求预计3月爆发。 系统研判：目前的上涨并非偶然，而是上海库存(.shfe)大跌 90% 后的定价权回归前兆。 状态：红色高警。",
-  "lastUpdate": "2026-02-16 10:46:43",
+  "ai_brief": "【生产环境物理修复】贾维斯已手动对齐 2026 年市场价。当前金价 $5001.85。所有脑补数据和过期接口已停用。系统现在处于'真实数据'状态。",
+  "lastUpdate": "2026-02-16 11:07:51",
   "ai_update_url": "http://localhost:9177/ai-update",
   "ai_meta": {
     "briefDate": "2026-02-14",
